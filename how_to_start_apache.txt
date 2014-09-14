@@ -1,0 +1,20 @@
+ApacheがOS起動時に自動起動するように設定
+# chkconfig httpd on
+
+iptablesのオリジナルファイルを保存
+# cp /etc/sysconfig/iptables /etc/sysconfig/iptables.org 
+
+HTTPポートの開放(80番ポートを追加)
+# vi /etc/sysconfig/iptables
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+
+ファイアウォール設定を反映
+# /etc/init.d/iptables restart
+
+Apacheを起動
+# /etc/init.d/httpd start
+
+HTMLファイルを以下に作成
+/var/www/html/index.html
+
