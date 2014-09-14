@@ -1,0 +1,3 @@
+/etc/rc.d/init.d/mysqld start # mysql server 起動
+mysql # mysql 起動
+
