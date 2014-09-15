@@ -74,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	<input type="hidden" id="answer" name="answer" value="">
 	<input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
 </form>
+<p><a href="result.php">投票結果を見る</a></p>
 <script>
 $(function() {
 	$('.candidate').click(function() {
