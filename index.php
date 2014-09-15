@@ -14,6 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	}
 } else {
 	// 投稿後
+	if (empty($_POST['token']) || $_POST['token'] != $_SESSION['token']) {
+		echo "unpermitted operation!";
+	}
+	// error check
+	if (!in_array($_POST['answer'], array(1, 2, 3, 4))) {
+		$err = "Please select picture";
+	}
 }
 ?>
 
@@ -30,6 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	</style>
 </head>
 <body>
+
+<?php if (!empty($err)) : ?>
+	<p style="color:red"><?php echo h($err); ?></p>
+<?php endif; ?>
 <h1>お料理コンテスト</h1>
 <form action="" method="POST">
 	<img src="photo1.jpg", class="candidate", data-id="1">
