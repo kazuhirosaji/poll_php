@@ -11,6 +11,11 @@ require_once('functions.php');
 	<meta charset="UTF-8">
 	<title>投票システム</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<style>
+	.selected {
+		border:4px solid red;
+	}
+	</style>
 </head>
 <body>
 <h1>お料理コンテスト</h1>
@@ -23,5 +28,12 @@ require_once('functions.php');
 	<input type="hidden" id="answer" name="answer" value="">
 </form>
 <script>
+$(function() {
+	$('.candidate').click(function() {
+		$('.candidate').removeClass('selected');
+		$(this).addClass('selected');
+		$('#answer').val($(this).data('id'));
+	});
+});
 </script>
 </body>
