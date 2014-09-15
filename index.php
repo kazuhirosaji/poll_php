@@ -21,6 +21,27 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	if (!in_array($_POST['answer'], array(1, 2, 3, 4))) {
 		$err = "Please select picture";
 	}
+
+	if (empty($err)) {
+		$dbh = connectDb();
+		$sql = "insert into answers
+				(answer, remote_addr, user_agent, answer_date, created, modified)
+				values
+				(:answer, :remote_addr, :user_agent, :answer_date, now(), now())";
+		$stmt = $dbh->prepare($sql);
+		$params = array(
+			":answer" => $_POST['answer'],
+			":remote_addr" => $_SERVER['REMOTE_ADDR'],
+			":user_agent" => $_SERVER['HTTP_USER_AGENT'],
+			":answer_date" => date("Y-m-d")
+			);
+
+		if ($stmt->execute($params)) {
+			$msg = "投票ありがとうございました!";
+		} else {
+			$err = "投票は1日1回までです";
+		}
+	}
 }
 ?>
 
@@ -37,7 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	</style>
 </head>
 <body>
-
+<?php if (!empty($msg)) : ?>
+	<p style="color:green"><?php echo h($msg); ?></p>
+<?php endif; ?>
 <?php if (!empty($err)) : ?>
 	<p style="color:red"><?php echo h($err); ?></p>
 <?php endif; ?>
