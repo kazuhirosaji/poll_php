@@ -3,6 +3,18 @@
 require_once('config.php');
 require_once('functions.php');
 
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+	// 投稿前
+
+	// for CSRF
+	if (!isset($_SESSION['token'])) {
+		$_SESSION['token'] = sha1(uniqid(mt_rand(), true));
+	}
+} else {
+	// 投稿後
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +38,7 @@ require_once('functions.php');
 	<img src="photo4.jpg", class="candidate", data-id="4">
 	<p><input type="submit" value="投票する！"></p>
 	<input type="hidden" id="answer" name="answer" value="">
+	<input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
 </form>
 <script>
 $(function() {
